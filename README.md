@@ -25,6 +25,10 @@ The project builds a complete pipeline including data cleaning, session segmenta
 - imbalanced-learn
 - matplotlib
 
+## Data Privacy
+
+The original dialysis dataset is not included in this repository due to privacy and data protection concerns. This repository only includes the machine learning workflow, preprocessing logic, model training process, and evaluation results.
+
 ## Machine Learning Pipeline
 
 ```text
@@ -55,17 +59,31 @@ Model Evaluation
 - Weighting Strategy: Distance-based weighting
 - Imbalance Handling: RandomUnderSampler / SMOTE-based methods
 
-## Best Experimental Result
+## Experimental Results
 
-The best experiment achieved approximately:
+The best test result in this notebook achieved approximately:
 
-- Accuracy: 95.6%
-- Balanced Accuracy: 94.3%
-- Macro F1-score: 92.5%
+- Accuracy: 92.96%
+- Balanced Accuracy: 92.11%
+- Macro F1-score: 88.47%
+
+Another experiment using RandomUnderSampler achieved approximately:
+
+- Accuracy: 92.10%
+- Balanced Accuracy: 93.42%
+- Macro F1-score: 87.66%
+
+## Notebook
+
+The main implementation is provided in:
+
+```text
+dialysis_pca_knn_rule_based.ipynb
+```
 
 ## What I Learned
 
-Through this project, I practiced building a complete machine learning workflow, including data preprocessing, feature engineering, dimensionality reduction, imbalance handling, model tuning, and evaluation.
+Through this project, I practiced building a complete machine learning workflow, including data preprocessing, session segmentation, feature engineering, dimensionality reduction, imbalance handling, model tuning, and evaluation.
 
 ## Future Improvements
 
