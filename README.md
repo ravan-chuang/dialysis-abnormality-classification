@@ -1,94 +1,141 @@
 # Dialysis Abnormality Classification
 
-A machine learning project for classifying normal and abnormal dialysis sessions from time-series medical data.
+An end-to-end machine-learning pipeline for classifying normal and abnormal dialysis sessions from time-series medical records.
 
-The project builds a complete pipeline including data cleaning, session segmentation, missing-value handling, feature extraction, PCA dimensionality reduction, class imbalance handling, and KNN classification.
+## Project Overview
 
-## Features
+This project processes raw dialysis records into session-level features and evaluates machine-learning models while reducing the risk of data leakage between training and evaluation data.
 
-- Load dialysis records from Excel files
-- Clean and preprocess time-series medical data
-- Segment records into dialysis sessions
-- Handle missing values with interpolation and median imputation
-- Extract statistical and time-series features
-- Apply PCA for dimensionality reduction
-- Train KNN classifiers with different hyperparameters
-- Handle class imbalance using RandomUnderSampler and SMOTE-based methods
-- Evaluate models with accuracy, balanced accuracy, macro F1-score, and confusion matrix
+The current main pipeline uses folder-based labels, session segmentation, statistical and temporal feature extraction, feature selection, XGBoost, class balancing, and threshold tuning.
 
-## Tech Stack
+## Key Results
+
+- Processed 6,279 dialysis sessions
+- Extracted 328 statistical and temporal features
+- Selected the top 30 features for the final XGBoost model
+- Used group-aware evaluation to prevent source-group overlap
+- Achieved mean balanced accuracy of approximately 0.86
+- Achieved mean F1-score of approximately 0.87
+
+## Pipeline
+```text
+Raw Excel Records
+        |
+        v
+Data Cleaning and Missing-Value Handling
+        |
+        v
+Session Segmentation
+        |
+        v
+Statistical and Temporal Feature Extraction
+        |
+        v
+328 Session-Level Features
+        |
+        v
+Top-30 Feature Selection
+        |
+        v
+XGBoost and Threshold Tuning
+        |
+        v
+Group-Aware Evaluation
+```
+
+## Dataset
+
+The dataset contains dialysis-machine records divided into normal and abnormal groups.
+
+The original files are not included because they contain private medical information. This repository does not publish patient identifiers or raw medical records.
+
+## Data Processing
+
+The pipeline includes:
+
+- Reading and standardizing Excel records
+- Handling missing values using global statistics
+- Segmenting records into dialysis sessions
+- Removing sessions that are too short or incomplete
+- Extracting statistical and temporal characteristics
+- Preventing source-group overlap between training and evaluation data
+
+## Feature Engineering
+
+Examples of extracted features include:
+
+- Mean, standard deviation, minimum, and maximum
+- Median, quartiles, and range
+- Absolute-difference statistics
+- First-, middle-, and last-third means
+- Linear trend and slope
+- Minimum position and change from session start
+
+Important features included measurements related to systolic and diastolic blood pressure, alerts, and temporal variation.
+
+## Modeling
+
+The project evaluates several machine-learning approaches, including:
+
+- PCA and KNN baselines
+- Random Forest
+- XGBoost
+- Feature-selection experiments
+- Class-balancing methods
+- Classification-threshold tuning
+
+The final reported result uses XGBoost with the top 30 selected features.
+
+## Evaluation
+
+The main evaluation metrics are:
+
+- Accuracy
+- Balanced accuracy
+- Precision
+- Recall
+- F1-score
+- Confusion matrix
+
+Group-aware evaluation is used to reduce leakage caused by records from the same source appearing in both training and validation sets.
+
+## Main Result
+
+| Metric | Mean Result |
+|---|---:|
+| Balanced Accuracy | 0.86 |
+| F1-score | 0.87 |
+| Recall | 0.90 |
+
+Results are based on cross-validation and rounded for presentation.
+
+## Privacy
+
+- Raw medical records are not published
+- Patient-identifying information is excluded
+- Only aggregated metrics and non-identifying figures are shown
+
+## Limitations
+
+- The dataset comes from a limited number of source files
+- Results should not be interpreted as clinical validation
+- Further testing on independent institutions and larger datasets is required
+- Threshold tuning and feature selection must be performed carefully to avoid optimistic evaluation
+
+## Future Improvements
+
+- Build a fully reproducible modular Python pipeline
+- Add SHAP-based model explainability
+- Evaluate external datasets
+- Compare additional time-series and deep-learning models
+- Add automated tests for preprocessing and feature extraction
+
+## Technologies
 
 - Python
 - pandas
 - NumPy
 - scikit-learn
+- XGBoost
 - imbalanced-learn
 - matplotlib
-
-## Data Privacy
-
-The original dialysis dataset is not included in this repository due to privacy and data protection concerns. This repository only includes the machine learning workflow, preprocessing logic, model training process, and evaluation results.
-
-## Machine Learning Pipeline
-
-```text
-Raw Excel Files
-        ↓
-Data Cleaning
-        ↓
-Session Segmentation
-        ↓
-Missing Value Imputation
-        ↓
-Feature Extraction
-        ↓
-Class Imbalance Handling
-        ↓
-PCA Dimensionality Reduction
-        ↓
-KNN Classification
-        ↓
-Model Evaluation
-```
-
-## Model Settings
-
-- Classifier: K-Nearest Neighbors
-- Dimensionality Reduction: PCA
-- Distance Metric: Manhattan distance
-- Weighting Strategy: Distance-based weighting
-- Imbalance Handling: RandomUnderSampler / SMOTE-based methods
-
-## Experimental Results
-
-The best test result in this notebook achieved approximately:
-
-- Accuracy: 92.96%
-- Balanced Accuracy: 92.11%
-- Macro F1-score: 88.47%
-
-Another experiment using RandomUnderSampler achieved approximately:
-
-- Accuracy: 92.10%
-- Balanced Accuracy: 93.42%
-- Macro F1-score: 87.66%
-
-## Notebook
-
-The main implementation is provided in:
-
-```text
-dialysis_pca_knn_rule_based.ipynb
-```
-
-## What I Learned
-
-Through this project, I practiced building a complete machine learning workflow, including data preprocessing, session segmentation, feature engineering, dimensionality reduction, imbalance handling, model tuning, and evaluation.
-
-## Future Improvements
-
-- Add more robust cross-validation
-- Compare with Random Forest, XGBoost, and deep learning models
-- Improve feature engineering for time-series signals
-- Add model explainability analysis
-- Package the pipeline into reusable modules
